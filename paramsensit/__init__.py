@@ -81,6 +81,7 @@ def run_simuls(params, files, acts):
             # Make the template rendering context.
             ctx = {name: val for name, val, _ in params}
             ctx[param[0]] = param_val
+            ctx['dir_name'] = dir_name
 
             # Generate all the templates.
             for templ, name in zip(templs, files):
