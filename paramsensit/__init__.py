@@ -278,7 +278,7 @@ def _print_res(res):
     ))
     for k, v in res.items():
         print(
-            fmt.format(k + tuple(v))
+            fmt.format(*(k + tuple(v)))
         )
         continue
 
