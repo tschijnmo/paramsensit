@@ -188,7 +188,7 @@ def run_func(params, func):
     # Make the dummy results dictionary.
     def dummy_func():
         func()
-        return 0
+        return 1
     acts = {'act': dummy_func}
 
     # Call the get results function.
