@@ -9,6 +9,7 @@ results on some parameters. Its main functions include
 
     run_simuls
     get_results
+    run_func
 
 """
 
@@ -115,7 +116,7 @@ ParamSensit = collections.namedtuple(
 )
 
 
-def get_results(params, acts):
+def get_results(params, acts, if_print=True):
     """Gets the results about the sensitivity
 
     :param params: An iterable of the parameters whose sensitivity are to be
@@ -124,6 +125,7 @@ def get_results(params, acts):
         mapping with names of the results as keys and callables for getting
         the results as values. The callables are going to be called with no
         arguments in the subdirectories for the simulations.
+    :param bool if_print: If the results are going to be printed.
     :returns: A dictionary giving the results for each of the parameters on
         each of the results. With the pair of the name of the parameter and
         the name of the result as keys and ``ParamSensit`` objects as values.
@@ -165,8 +167,34 @@ def get_results(params, acts):
         continue
 
     # Print the results on the stdout before returning.
-    _print_res(res)
+    if if_print:
+        _print_res(res)
+
     return res
+
+
+def run_func(params, func):
+    """Run the given function in all the simulation directories
+
+    This is a utitity function for automatic performing the same action on the
+    subdirectories.
+
+    :param params: The parameters whose sensitivity is to be tested.
+    :param function func: The callable that is going to be called in each of
+        the subdirectories.
+    :returns: None
+    """
+
+    # Make the dummy results dictionary.
+    def dummy_func():
+        func()
+        return 0
+    acts = {'act': dummy_func}
+
+    # Call the get results function.
+    get_results(params, acts, if_print=False)
+
+    return None
 
 
 #
